@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.all
+    @messages = Message.find_all_by_user_id(params[:user_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,7 @@ class MessagesController < ApplicationController
   # GET /messages/new.xml
   def new
     @message = Message.new
-
+    @message.user_id = params[:user_id]
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @message }
@@ -41,11 +41,11 @@ class MessagesController < ApplicationController
   # POST /messages.xml
   def create
     @message = Message.new(params[:message])
-
+    @message.user_id = params[:user_id]
     respond_to do |format|
       if @message.save
         flash[:notice] = 'Message was successfully created.'
-        format.html { redirect_to(@message) }
+        format.html { redirect_to([@message.user,@message]) }
         format.xml  { render :xml => @message, :status => :created, :location => @message }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.update_attributes(params[:message])
         flash[:notice] = 'Message was successfully updated.'
-        format.html { redirect_to(@message) }
+        format.html { redirect_to([@message.user, @message]) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -78,7 +78,7 @@ class MessagesController < ApplicationController
     @message.destroy
 
     respond_to do |format|
-      format.html { redirect_to(messages_url) }
+      format.html { redirect_to(user_path(params[:user_id])) }
       format.xml  { head :ok }
     end
   end

@@ -2,7 +2,7 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.xml
   def index
-    @conversations = Conversation.all
+    @conversations = Conversation.find_all_by_user_id(params[:user_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,7 @@ class ConversationsController < ApplicationController
   # GET /conversations/new.xml
   def new
     @conversation = Conversation.new
-
+    @conversation.user_id = params[:user_id]
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @conversation }
@@ -41,11 +41,11 @@ class ConversationsController < ApplicationController
   # POST /conversations.xml
   def create
     @conversation = Conversation.new(params[:conversation])
-
+    @conversation.user_id = params[:user_id]
     respond_to do |format|
       if @conversation.save
         flash[:notice] = 'Conversation was successfully created.'
-        format.html { redirect_to(@conversation) }
+        format.html { redirect_to([@conversation.user, @conversation]) }
         format.xml  { render :xml => @conversation, :status => :created, :location => @conversation }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.update_attributes(params[:conversation])
         flash[:notice] = 'Conversation was successfully updated.'
-        format.html { redirect_to(@conversation) }
+        format.html { redirect_to([@conversation.user, @conversation]) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -78,7 +78,7 @@ class ConversationsController < ApplicationController
     @conversation.destroy
 
     respond_to do |format|
-      format.html { redirect_to(conversations_url) }
+      format.html { redirect_to(user_path(params[:user_id])) }
       format.xml  { head :ok }
     end
   end

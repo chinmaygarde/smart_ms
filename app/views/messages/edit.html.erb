@@ -1,12 +1,7 @@
 <h1>Editing message</h1>
 
-<% form_for(@message) do |f| %>
+<% form_for([@message.user, @message]) do |f| %>
   <%= f.error_messages %>
-
-  <p>
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </p>
   <p>
     <%= f.label :content %><br />
     <%= f.text_area :content %>
@@ -16,5 +11,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @message %> |
-<%= link_to 'Back', messages_path %>
+<%= link_to 'Show', [@message.user, @message] %> |
+<%= link_to 'Back', user_messages_path(@message.user) %>

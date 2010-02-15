@@ -1,12 +1,7 @@
 <h1>Editing conversation</h1>
 
-<% form_for(@conversation) do |f| %>
+<% form_for([@conversation.user, @conversation]) do |f| %>
   <%= f.error_messages %>
-
-  <p>
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </p>
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -16,5 +11,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @conversation %> |
-<%= link_to 'Back', conversations_path %>
+<%= link_to 'Show', [@conversation.user, @conversation] %> |
+<%= link_to 'Back', user_conversations_path(@conversation.user) %>

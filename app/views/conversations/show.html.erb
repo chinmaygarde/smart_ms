@@ -1,6 +1,6 @@
 <p>
   <b>User:</b>
-  <%=h @conversation.user_id %>
+  <%=h @conversation.user.username %>
 </p>
 
 <p>
@@ -9,5 +9,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_conversation_path(@conversation) %> |
-<%= link_to 'Back', conversations_path %>
+<%= link_to 'Edit', edit_user_conversation_path(@conversation.user, @conversation) %> |
+<%= link_to 'Back', user_conversations_path(@conversation.user) %>
