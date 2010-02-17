@@ -1,0 +1,24 @@
+
+<p>
+  <b>First name:</b>
+  <%=h @contact.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%=h @contact.last_name %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%=h @contact.phone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @contact.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_contact_path(@contact.user, @contact) %> |
+<%= link_to 'Back', user_contacts_path(@contact.user) %>
