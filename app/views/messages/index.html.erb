@@ -2,14 +2,14 @@
 
 <table>
   <tr>
-    <th>User</th>
     <th>Content</th>
+    <th>From</th>
   </tr>
 
 <% @messages.each do |message| %>
   <tr>
-    <td><%=h message.user.username %></td>
     <td><%=h message.content %></td>
+    <td><%=h message.from_number %></td>
     <td><%= link_to 'Show', [message.user, message] %></td>
     <td><%= link_to 'Edit', edit_user_message_path(message.user, message) %></td>
     <td><%= link_to 'Destroy', [message.user, message], :confirm => 'Are you sure?', :method => :delete %></td>

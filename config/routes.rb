@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :user_sessions
 
-  #map.resources :conversations
+  map.resources :conversations, :has_many => [:messages], :only =>  [:show]
 
   #map.resources :messages
 

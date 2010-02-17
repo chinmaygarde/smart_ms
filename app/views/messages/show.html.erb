@@ -8,6 +8,10 @@
   <%=h @message.content %>
 </p>
 
+<p>
+  <b>From:</b>
+  <%=h @message.from_number %>
+</p>
 
 <%= link_to 'Edit', edit_user_message_path(@message.user, @message) %> |
 <%= link_to 'Back', user_messages_path(@message.user) %>

@@ -5,8 +5,16 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.find_all_by_user_id(params[:user_id])
-
+  	
+  	if params[:user_id]
+  		@messages = Message.find_all_by_user_id(params[:user_id])
+  	elsif params[:conversation_id]
+  		conversation = Conversation.find(params[:conversation_id])
+  		@messages = conversation.messages
+  	else
+  		@messages = []
+  	end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @messages }
@@ -45,6 +53,14 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(params[:message])
     @message.user_id = params[:user_id]
+    
+    conversation = Conversation.find_by_user_id_and_with_number(@message.user_id, @message.from_number)
+    
+    unless conversation
+    	conversation = Conversation.create(:user_id => @message.user_id, :title => "Conversation with #{@message.from_number}", :with_number => @message.from_number)
+    end
+    conversation.messages << @message
+    
     respond_to do |format|
       if @message.save
         flash[:notice] = 'Message was successfully created.'
