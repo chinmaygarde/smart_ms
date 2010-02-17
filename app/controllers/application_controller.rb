@@ -22,4 +22,11 @@ class ApplicationController < ActionController::Base
     @current_user = current_user_session && current_user_session.record
   end
   
+  def authorize
+    unless current_user
+      flash[:notice] = "Please login/register."
+      redirect_to login_path
+    end
+  end
+  
 end

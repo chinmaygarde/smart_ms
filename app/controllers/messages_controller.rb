@@ -1,4 +1,7 @@
 class MessagesController < ApplicationController
+	
+	before_filter :authorize
+	
   # GET /messages
   # GET /messages.xml
   def index

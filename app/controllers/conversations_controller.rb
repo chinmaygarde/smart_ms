@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+	
+	before_filter :authorize
   # GET /conversations
   # GET /conversations.xml
   def index
